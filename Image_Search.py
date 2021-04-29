@@ -3,6 +3,7 @@ from selenium import webdriver
 import time
 import requests
 import Search_Tags
+import os
 import base64
 
 
@@ -11,7 +12,10 @@ class Image:
         self.link = link
         try:
             self.data = requests.get(self.link).content
-            self.type = link.split(".")[-1]
+            try:
+                self.type = os.path.split(self.link)[1]
+            except OSError:
+                self.type = "jpeg"
         except requests.exceptions.InvalidSchema:
             self.data = base64.b64decode(self.link.split(",")[-1])
             self.type = self.link.split(",")[0].split("/")[-1].split(";")[0]
@@ -21,8 +25,28 @@ class Image:
             image_file.write(self.data)
 
 
-def search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results, no gif support"""
+def bing_search_image(search_term: str, number_of_images: int, *tags):
+    """Returns a list of images from the search results from bing, no gif support, WIP not completely working"""
+    options = webdriver.ChromeOptions()
+    dr = webdriver.Chrome(
+        executable_path='chromedriver.exe',
+        options=options,
+
+    )
+    dr.get(f"https://www.bing.com/images/search?q={search_term}{''.join(tags)}")
+    time.sleep(1)
+    soup = BeautifulSoup(dr.page_source, "html.parser")
+    dr.close()
+    image_list = soup.find_all("img", class_="mimg")
+    return_images = []
+    for picture in image_list[:number_of_images]:
+        return_images.append(Image(picture.get("src")))
+
+    return return_images
+
+
+def google_search_image(search_term: str, number_of_images: int, *tags):
+    """Returns a list of images from the search results from google, no gif support"""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     dr = webdriver.Chrome(
@@ -43,6 +67,6 @@ def search_image(search_term: str, number_of_images: int, *tags):
     return return_images
 
 
-images = search_image("rug", 10, Search_Tags.Gif)
+images = bing_search_image("dog", 10)
 for image in images:
     image.save(f"saves/{images.index(image)}")
