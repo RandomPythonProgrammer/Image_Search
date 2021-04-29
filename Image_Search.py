@@ -60,7 +60,7 @@ def bing_search_image(search_term: str, number_of_images: int, *tags):
 
 
 def google_search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results from google, no Pngs or Gifs"""
+    """Returns a list of images from the search results from google, no Pngs or Gifs, still WIP"""
     options = webdriver.ChromeOptions()
     options.add_argument('disable-infobars')
     options.add_experimental_option("useAutomationExtension", False)
