@@ -31,7 +31,7 @@ class Image:
                 self.type = "jpeg"
         elif source == "bing":
             self.data = requests.get(self.link).content
-            self.type = os.path.split(self.link)[1]
+            self.type = os.path.splitext(self.link)[-1]
 
     def save(self, filename):
         with open(f"{filename}.{self.type}", "wb") as image_file:
@@ -39,16 +39,15 @@ class Image:
 
 
 def bing_search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results from bing, sometimes defaults to jpegs"""
+    """Returns a list of images from the search results from bing, supports Gifs and Pngs"""
     options = webdriver.ChromeOptions()
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
     dr = webdriver.Chrome(
         driver_path,
         options=options,
 
     )
     dr.get(f"https://www.bing.com/images/search?q={search_term}{''.join(tags)}")
-    time.sleep(30)
     soup = BeautifulSoup(dr.page_source, "html.parser")
     dr.close()
     image_list = soup.find_all("a", class_="iusc")
@@ -61,7 +60,7 @@ def bing_search_image(search_term: str, number_of_images: int, *tags):
 
 
 def google_search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results from google, sometimes defaults to jpegs"""
+    """Returns a list of images from the search results from google, no Pngs or Gifs"""
     options = webdriver.ChromeOptions()
     options.add_argument('disable-infobars')
     options.add_experimental_option("useAutomationExtension", False)
@@ -73,7 +72,6 @@ def google_search_image(search_term: str, number_of_images: int, *tags):
         options=options,
     )
     dr.get(f"http://www.google.com/search?q={search_term}&tbm=isch{''.join(tags)}")
-    time.sleep(3)
     soup = BeautifulSoup(dr.page_source, "html.parser")
     dr.close()
     images = soup.find_all("img", class_="rg_i Q4LuWd")
@@ -84,6 +82,6 @@ def google_search_image(search_term: str, number_of_images: int, *tags):
     return return_images
 
 
-images = bing_search_image("dog", 10, Search_Tags.Bing_Png)
+images = google_search_image("dog", 10, Search_Tags.Google_Png)
 for image in images:
     image.save(f"saves/{images.index(image)}")
