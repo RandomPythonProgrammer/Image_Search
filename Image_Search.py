@@ -22,11 +22,11 @@ class Image:
 
 
 def search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results"""
+    """Returns a list of images from the search results, no gif support"""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     dr = webdriver.Chrome(
-        executable_path='/Users/Student/Downloads/chromedriver',
+        executable_path='chromedriver.exe',
         options=options,
     )
     dr.get(f"http://www.google.com/search?q={search_term}&tbm=isch{''.join(tags)}")
