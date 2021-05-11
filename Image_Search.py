@@ -39,7 +39,7 @@ class Image:
 
 
 def bing_search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results from bing, supports Gifs and Pngs"""
+    """Returns a list of images from the search results from bing, supports Gifs and Pngs, you can find search tags in the Search_Tags.py"""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     dr = webdriver.Chrome(
@@ -60,7 +60,7 @@ def bing_search_image(search_term: str, number_of_images: int, *tags):
 
 
 def google_search_image(search_term: str, number_of_images: int, *tags):
-    """Returns a list of images from the search results from google, no Pngs or Gifs, still WIP"""
+    """Returns a list of images from the search results from google, no Pngs or Gifs, still WIP, you can find search tags in the Search_Tags.py"""
     options = webdriver.ChromeOptions()
     options.add_argument('disable-infobars')
     options.add_experimental_option("useAutomationExtension", False)
@@ -82,6 +82,8 @@ def google_search_image(search_term: str, number_of_images: int, *tags):
     return return_images
 
 
-images = google_search_image("dog", 10, Search_Tags.Google_Png)
-for image in images:
-    image.save(f"saves/{images.index(image)}")
+if __name__ == "__main__":
+    # Here is just an example for you to try:
+    images = bing_search_image("dog", 10, Search_Tags.Bing_Png)
+    for image in images:
+        image.save(f"{images.index(image)}")
