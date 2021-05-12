@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import requests
-import Search_Tags
+
 import platform
 import os
 import base64

@@ -10,5 +10,5 @@ setup(
     long_description="Idk just a random python image search thing, it uses selenium and stuff.",
     install_requires=['selenium', 'bs4', 'requests'],
     keywords="Image Search",
-    scripts=["Image_Search.py"]
+    scripts=["ImageSearch.py"]
 )
