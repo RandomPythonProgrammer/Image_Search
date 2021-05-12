@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import time
 import requests
 import Search_Tags
 import platform
