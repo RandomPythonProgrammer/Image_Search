@@ -9,9 +9,9 @@ import ast
 
 
 if platform.system() == "Windows":
-    driver_path = '../chrome_driver/chromedriver.exe'
+    driver_path = 'chrome_driver/chromedriver.exe'
 elif platform.system() == "Darwin":
-    driver_path = '../chrome_driver/chromedriver'
+    driver_path = 'chrome_driver/chromedriver'
 
 
 class Image:
@@ -67,7 +67,7 @@ def google_search_image(search_term: str, number_of_images: int, *tags):
     options.add_argument("--headless")
 
     dr = webdriver.Chrome(
-        executable_path="../chrome_driver/chromedriver",
+        executable_path="chrome_driver/chromedriver",
         options=options,
     )
     dr.get(f"http://www.google.com/search?q={search_term}&tbm=isch{''.join(tags)}")
