@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='pyImageSearch',
+    name='PythonImageSearch',
     version="1.0.1",
     url='https://github.com/RandomPythonProgrammer/python-image-search',
     author='RandomPythonProgrammer',
